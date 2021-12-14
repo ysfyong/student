@@ -24,7 +24,9 @@ namespace StudentApp
                 foreach (string line in lines)
                 {
                     // Split by comma outside double quotes
-                    string[] ar = Regex.Split(line, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                    //string[] ar = Regex.Split(line, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)");
+                    string[] ar = Regex.Split(line, ",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)(?![^[]*])");
+
                     studentList.Add(new Student {
                         Name    = ar[0].ToString(),
                         Address = ar[1].ToString(),
@@ -40,11 +42,17 @@ namespace StudentApp
                 Console.WriteLine(String.Join(",", s.Name, s.Address, s.Age, s.Hobby));
             }
 
-            // Get the eldest student in studentList
-            var eldestStudent = studentList.OrderByDescending(item => item.Age).First();
+            // Get Max Age
+            var maxAge = studentList.Max(x => x.Age);
 
-            Console.WriteLine(" \r\nEldest Student:");
-            Console.WriteLine(String.Join(",", eldestStudent.Name, eldestStudent.Address, eldestStudent.Age, eldestStudent.Hobby));
+            Console.WriteLine("\r\nMax age:" + maxAge + "\r\n");
+
+            foreach (Student s in studentList)
+            {
+                if(s.Age == maxAge)
+                Console.WriteLine(String.Join(",", s.Name, s.Address, s.Age, s.Hobby));
+            }
+
             Console.ReadKey();
         }
 
